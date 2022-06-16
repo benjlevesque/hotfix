@@ -15,19 +15,19 @@ yargs(hideBin(process.argv))
           array: true,
           demandOption: true,
         })
-        .option("tag", {
+        .option("fromTag", {
           type: "string",
           demandOption: true,
           desc: "The existing tag to apply the fix on",
         }),
-    ({ tag, hashes }) => {
+    ({ fromTag, hashes }) => {
       const currentBranch = execSync(
         `git rev-parse --abbrev-ref HEAD`
       ).toString();
-      const newTag = new SemVer(tag).inc("patch").format();
+      const newTag = new SemVer(fromTag).inc("patch").format();
       const branchName = `hotfix-${newTag}`;
       try {
-        execSync(`git checkout ${tag}`);
+        execSync(`git checkout ${fromTag}`);
         execSync(`git checkout -b ${branchName}`);
         for (const hash of hashes) {
           execSync(`git cherry-pick ${hash}`);
