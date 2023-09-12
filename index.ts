@@ -35,7 +35,7 @@ yargs(hideBin(process.argv))
         execSync(`git push origin ${branchName}`);
         execSync(`git tag ${newTag}`);
         execSync(`git push --tags`);
-        execSync(`gh release create ${newTag} --generate-notes`);
+        execSync(`gh release create ${newTag} --target ${branchName} --generate-notes`);
       } catch (e) {
         console.error(e.toString());
       } finally {
